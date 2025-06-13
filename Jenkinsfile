@@ -22,6 +22,22 @@ pipeline {
                 bat 'dotnet test --no-build --verbosity normal'
             }
         }
+
+	stage ('public den t thu muc')
+	{
+		steps{
+			echo 'Publishing...'
+			bat 'dotnet publish -c Release -o ./publish'
+		}
+	}
+	stage ('Publish') {
+		steps {
+			echo 'public 2 running folder'
+		//iisreset /stop // stop iis de ghi de file 
+			bat 'xcopy "%WORKSPACE%\\publish" /E /Y /I /R "c:\\wwwroot\\myproject"'
+ 		}
+	}
+
 	stage('Deploy to IIS') {
             steps {
                 powershell '''
@@ -29,7 +45,7 @@ pipeline {
                 # Tạo website nếu chưa có
                 Import-Module WebAdministration
                 if (-not (Test-Path IIS:\\Sites\\MySite)) {
-                    New-Website -Name "MySite" -Port 81 -PhysicalPath "C:\\Users\\ADMIN\\OneDrive\\Documents\\GitHub\\testCDprojec"
+                    New-Website -Name "MySite" -Port 81 -PhysicalPath "c:\\wwwroot\\myproject"
                 }
                 '''
             }
