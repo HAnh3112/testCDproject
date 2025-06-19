@@ -8,15 +8,15 @@ WORKDIR /app
 # Stage 1: build 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src 
-COPY ["testCDprojec.csproj","src/"] 
-RUN dotnet restore "src/testCDprojec.csproj" 
+COPY ["testCDproject.csproj","src/"] 
+RUN dotnet restore "src/testCDproject.csproj" 
 COPY . . 
 WORKDIR /src 
-RUN dotnet build "testCDprojec.csproj" -c Release  -o /app/build 
+RUN dotnet build "testCDproject.csproj" -c Release  -o /app/build 
 FROM build AS publish 
-RUN dotnet publish "testCDprojec.csproj" -c Release -o /app/publish /p:UseAppHost=false 
+RUN dotnet publish "testCDproject.csproj" -c Release -o /app/publish /p:UseAppHost=false 
 # Stage 2: runtime 
 FROM base AS final 
 WORKDIR /app 
 COPY --from=publish /app/publish . 
-ENTRYPOINT ["dotnet", "testCDprojec.dll"] 
+ENTRYPOINT ["dotnet", "testCDproject.dll"] 
