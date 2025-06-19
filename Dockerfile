@@ -14,8 +14,7 @@ COPY . .
 WORKDIR /src 
 RUN dotnet build "testCDprojec.csproj" -c Release  -o /app/build 
 FROM build AS publish 
-RUN dotnet publish "testCDprojec.csproj" -c 
-Release -o /app/publish /p:UseAppHost=false 
+RUN dotnet publish "testCDprojec.csproj" -c Release -o /app/publish /p:UseAppHost=false 
 # Stage 2: runtime 
 FROM base AS final 
 WORKDIR /app 
