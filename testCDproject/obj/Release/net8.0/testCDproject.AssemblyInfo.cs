@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("testCDproject")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eae9915a9c90273b4bc9f69f3746ef950452521e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c7008ccdebd95753ad55c83f0baf895b7a0a7ab")]
 [assembly: System.Reflection.AssemblyProductAttribute("testCDproject")]
 [assembly: System.Reflection.AssemblyTitleAttribute("testCDproject")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
