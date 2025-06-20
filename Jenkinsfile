@@ -23,36 +23,50 @@ pipeline {
             }
         }
 
-	stage ('public den t thu muc')
-	{
-		steps{
-			echo 'Publishing...'
-			bat 'dotnet publish -c Release -o ./publish'
-		}
-	}
-	stage ('Publish') {
-		steps {
-			echo 'public 2 running folder'
-		//iisreset /stop // stop iis de ghi de file 
-			bat 'xcopy "%WORKSPACE%\\publish" /E /Y /I /R "c:\\wwwroot\\myproject"'
- 		}
-	}
-
-	stage('Deploy to IIS') {
+        stage('Stop IIS') {
             steps {
-                powershell '''
-               
-                # Tạo website nếu chưa có
-                Import-Module WebAdministration
-                if (-not (Test-Path IIS:\\Sites\\MySite)) {
-                    New-Website -Name "MySite" -Port 82 -PhysicalPath "c:\\wwwroot\\myproject"
-                }
-                '''
+                echo 'Stopping IIS...'
+                bat 'iisreset /stop'
             }
-        } // end deploy iis
+        }
+
+	    stage ('public den t thu muc')
+	    {
+		    steps{
+			    echo 'Publishing...'
+			    bat 'dotnet publish -c Release -o ./publish'
+		    }
+	    }
+	    stage ('Publish') {
+		    steps {
+			    echo 'public 2 running folder'
+		    //iisreset /stop // stop iis de ghi de file 
+			    bat 'xcopy "%WORKSPACE%\\publish" /E /Y /I /R "c:\\wwwroot\\myproject"'
+ 		    }
+	    }
+
+	    stage('Deploy to IIS') {
+                steps {
+                    powershell '''
+               
+                    # Tạo website nếu chưa có
+                    Import-Module WebAdministration
+                    if (-not (Test-Path IIS:\\Sites\\MySite)) {
+                        New-Website -Name "MySite" -Port 82 -PhysicalPath "c:\\wwwroot\\myproject"
+                    }
+                    '''
+                }
+            } // end deploy iis
 
 
-    }
+        }
+
+        stage('Start IIS') {
+            steps {
+                echo 'Starting IIS...'
+                bat 'iisreset /start'
+            }
+        }
 
     post {
         always {
