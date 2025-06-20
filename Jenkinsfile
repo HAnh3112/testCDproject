@@ -58,15 +58,14 @@ pipeline {
                 }
             } // end deploy iis
 
-
-        }
-
         stage('Start IIS') {
             steps {
                 echo 'Starting IIS...'
                 bat 'iisreset /start'
             }
         }
+
+  }
 
     post {
         always {
