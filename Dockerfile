@@ -8,10 +8,10 @@ WORKDIR /app
 # Stage 1: build 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src 
-COPY ["testCDproject/testCDproject.csproj","src/"] 
-RUN dotnet restore "src/testCDproject.csproj" 
+COPY ["testCDproject/testCDproject.csproj","testCDproject/"] 
+RUN dotnet restore "testCDproject/testCDproject.csproj" 
 COPY . . 
-WORKDIR /src 
+WORKDIR /src/testCDproject 
 RUN dotnet build "testCDproject.csproj" -c Release  -o /app/build 
 FROM build AS publish 
 RUN dotnet publish "testCDproject.csproj" -c Release -o /app/publish /p:UseAppHost=false 
