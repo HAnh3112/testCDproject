@@ -30,7 +30,7 @@ pipeline {
             }
         }
 
-	    stage ('public den t thu muc')
+	    stage ('public to folder')
 	    {
 		    steps{
 			    echo 'Publishing...'
@@ -49,7 +49,6 @@ pipeline {
                 steps {
                     powershell '''
                
-                    # Tạo website nếu chưa có
                     Import-Module WebAdministration
                     if (-not (Test-Path IIS:\\Sites\\MySite)) {
                         New-Website -Name "MySite" -Port 82 -PhysicalPath "c:\\wwwroot\\myproject"
