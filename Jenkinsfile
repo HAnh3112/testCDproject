@@ -64,6 +64,22 @@ pipeline {
             }
         }
 
+    	stage('docker image') {
+            steps {
+                 bat '''
+					  docker build -t p27625:lastest -f "%WORKSPACE%\\Dockerfile" .
+					'''
+                }
+            }
+
+		// dua vao docker image
+		stage('docker run') {
+            steps {
+                  bat 'docker run -d --name p27625run -p 90:80 p27625:lastest'
+                }
+            }
+
+
   }
 
     post {
