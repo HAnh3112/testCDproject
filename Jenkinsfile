@@ -66,17 +66,21 @@ pipeline {
         stage('docker image') {
             steps {
                  bat '''
-					  docker build -t p27625:latest -f "%WORKSPACE%\\Dockerfile" .
+					  docker build -t testcdprojectdocker -f "%WORKSPACE%\\Dockerfile" .
 					'''
                 }
           }
 
 		// dua vao docker image
-		stage('docker run') {
+        stage('docker run') {
             steps {
-                  bat 'docker run -d --name p27625run -p 90:80 p27625:latest'
-                }
+                echo 'Stopping and removing existing Docker container if it exists...'
+                bat '''
+                    docker rm -f p27625run || echo "No existing container to remove"
+                    docker run -d --name p27625run -p 90:80 testcdprojectdocker
+                '''
             }
+        }
 
 
 
